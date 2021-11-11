@@ -1,0 +1,32 @@
+#PYSPARKL2 - TRAINING
+
+#Create a clusture --> Create Notebook and attach the clusture to the notebook
+
+dbutils
+
+%sh git clone https://github.com/prasadbankeshwar/Databricks.git -- depth 1 --branch=main /FileStore/data
+
+
+%fs ls /FileStore/data
+
+
+%fs ls /FileStore/data/ebook
+
+%fs head dbfs:/FileStore/data/ebook/PrideAndPrejudice.txt
+
+#Find the word frequency (No of times each word is occurring)
+
+ebookRDD =sc.textFile("dbfs:/FileStore/data/ebook/*.txt")
+ebookRDD1 = ebookRDD.filter(lambda x: x.strip() != "") #--> To remove emplty lines
+ebookRDD2 = ebookRDD1.flatmap(lambda x: x.split(" ").map(lambda x : x.lower())
+ebookRDD3 = ebookRDD2.map(lambda x: (x,1))
+# Many transformation like aggregation joins etc work on paired RDD
+ebookRDD4 = ebookRDD3.reduceByKey(lambda x, y: x + y)
+ebookRDD5 = ebookRDD4.sortBy(lambda x : -x[1])
+ebookRDD5.saveAsTextFile("/FileStore/trg11Nove/ebookout")
+
+
+ebookRDD4.take(5)
+
+
+
