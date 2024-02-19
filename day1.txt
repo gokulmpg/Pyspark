@@ -8,3 +8,8 @@ Apche spark will help us acheive faster and easily scalable solution.
 ]Ease of use
 
 Basically to work with huge amount of data
+
+
+
+!pip install pyspark
+
